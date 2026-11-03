@@ -1,7 +1,7 @@
 import { IsEmail, IsNotEmpty, IsPhoneNumber, IsString, MaxLength, MinLength } from 'class-validator'
 import { Transform } from 'class-transformer'
 
-export class IamRegisterDto {
+export class AccountRegisterDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(255)

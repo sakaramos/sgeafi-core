@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { validate } from './config/validate.js'
-import { IamModule } from './modules/iam/iam.module.js'
+import { AccountModule } from './modules/account/account.module.js'
 import { HashModule } from './common/hash/hash.module.js'
 
 @Module({
@@ -10,7 +10,7 @@ import { HashModule } from './common/hash/hash.module.js'
       validate,
       isGlobal: true,
     }),
-    IamModule,
+    AccountModule,
     HashModule,
   ],
 })

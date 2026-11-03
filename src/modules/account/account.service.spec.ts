@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { IamService } from './iam.service.js'
+import { AccountService } from './account.service.js'
 import { HashService } from '../../common/hash/hash.service.js'
 import { createMockHashService } from '../../helpers/service.mock.js'
-import { createMockIamRegisterDto } from '../../helpers/data.mock.js'
+import { createMockAccountRegisterDto } from '../../helpers/data.mock.js'
 
-describe('IamService', () => {
-  let service: IamService
+describe('AccountService', () => {
+  let service: AccountService
   let mockHashService: ReturnType<typeof createMockHashService>
 
   beforeEach(async () => {
@@ -13,7 +13,7 @@ describe('IamService', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        IamService,
+        AccountService,
         {
           provide: HashService,
           useValue: mockHashService,
@@ -21,14 +21,14 @@ describe('IamService', () => {
       ],
     }).compile()
 
-    service = module.get<IamService>(IamService)
+    service = module.get<AccountService>(AccountService)
 
     vi.clearAllMocks()
   })
 
   describe('register', () => {
     it('should return true when registering successfully', async () => {
-      const dto = createMockIamRegisterDto()
+      const dto = createMockAccountRegisterDto()
 
       const result = await service.register(dto)
 

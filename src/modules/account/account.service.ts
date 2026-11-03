@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common'
-import { IamRegisterDto } from './iam.dto.js'
+import { AccountRegisterDto } from './account.dto.js'
 import { HashService } from '../../common/hash/hash.service.js'
 
 @Injectable()
-export class IamService {
+export class AccountService {
   constructor(private readonly hash: HashService) {}
 
-  async register(dto: IamRegisterDto): Promise<boolean> {
+  async register(dto: AccountRegisterDto): Promise<boolean> {
     await this.hash.hash(dto.password)
+
     return true
   }
 }

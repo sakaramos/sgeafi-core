@@ -1,4 +1,4 @@
-export const createMockIamService = () => ({
+export const createMockAccountService = () => ({
   register: vi.fn().mockResolvedValue(true),
 })
 

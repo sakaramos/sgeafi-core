@@ -1,4 +1,4 @@
-export const createMockIamRegisterDto = (overrides = {}) => ({
+export const createMockAccountRegisterDto = (overrides = {}) => ({
   accountName: 'MyAccount',
   name: 'John Doe',
   phoneNumber: '3111111111',
