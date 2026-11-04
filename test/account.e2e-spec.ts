@@ -40,7 +40,10 @@ describe('AccountModule', () => {
     }
 
     it('it should return 201 when the data is correct', () => {
-      return request(app.getHttpServer()).post('/account').send(validPayload).expect(201)
+      return request(app.getHttpServer())
+          .post('/account')
+          .send(validPayload)
+          .expect(201)
     })
 
     const nonStringFields = ['accountName', 'name', 'phoneNumber', 'email', 'password']
@@ -59,11 +62,10 @@ describe('AccountModule', () => {
         .expect(400)
     })
 
-    const shortPasswordCases = [['password is too short', '1234567']]
-    it.each(shortPasswordCases)('should return 400 when %s', (_, shortPassword) => {
+    it('should return 400 when the password is too short', () => {
       return request(app.getHttpServer())
         .post('/account')
-        .send({ ...validPayload, password: shortPassword })
+        .send({ ...validPayload, password: '1234567' })
         .expect(400)
     })
 
@@ -93,7 +95,10 @@ describe('AccountModule', () => {
     })
 
     it('should return 409 when the email is already registered', async () => {
-      await request(app.getHttpServer()).post('/account').send(validPayload).expect(201)
+      await request(app.getHttpServer())
+          .post('/account')
+          .send(validPayload)
+          .expect(201)
 
       const response = await request(app.getHttpServer())
         .post('/account')
