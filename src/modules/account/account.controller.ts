@@ -1,4 +1,5 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common'
+
 import { AccountRegisterDto } from './account.dto.js'
 import { AccountService } from './account.service.js'
 
@@ -8,7 +9,7 @@ export class AccountController {
 
   @Post()
   @HttpCode(201)
-  async register(@Body() body: AccountRegisterDto): Promise<boolean> {
+  async register(@Body() body: AccountRegisterDto) {
     return this.accountService.register(body)
   }
 }

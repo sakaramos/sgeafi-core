@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt'
 export class HashService {
   private readonly saltRounds = 10
 
-  async hash(value: string): Promise<string> {
+  async hash(value: string) {
     return await bcrypt.hash(value, this.saltRounds)
   }
 }

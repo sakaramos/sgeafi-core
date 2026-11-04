@@ -1,6 +1,8 @@
-import request from 'supertest'
-import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication, ValidationPipe } from '@nestjs/common'
+import { Test, TestingModule } from '@nestjs/testing'
+import request from 'supertest'
+
+import { PrismaClient } from '../generated/prisma/index.js'
 import { AppModule } from '../src/app.module.js'
 
 describe('AccountModule', () => {
@@ -52,7 +54,7 @@ describe('AccountModule', () => {
     const emptyFields = ['accountName', 'name', 'phoneNumber', 'email', 'password']
     it.each(emptyFields)('should return 400 when %s is empty', (field) => {
       return request(app.getHttpServer())
-        .post('/acount')
+        .post('/account')
         .send({ ...validPayload, [field]: '' })
         .expect(400)
     })
@@ -60,7 +62,7 @@ describe('AccountModule', () => {
     const shortPasswordCases = [['password is too short', '1234567']]
     it.each(shortPasswordCases)('should return 400 when %s', (_, shortPassword) => {
       return request(app.getHttpServer())
-        .post('/acount')
+        .post('/account')
         .send({ ...validPayload, password: shortPassword })
         .expect(400)
     })
@@ -73,7 +75,7 @@ describe('AccountModule', () => {
     ]
     it.each(maxLengthCases)('should return 400 when %s exceeds max length', (field, value) => {
       return request(app.getHttpServer())
-        .post('/acount')
+        .post('/account')
         .send({ ...validPayload, [field]: value })
         .expect(400)
     })
@@ -88,6 +90,21 @@ describe('AccountModule', () => {
         .post('/account')
         .send({ ...validPayload, email: invalidEmail })
         .expect(400)
+    })
+
+    it('should return 409 when the email is already registered', async () => {
+      await request(app.getHttpServer()).post('/account').send(validPayload).expect(201)
+
+      const response = await request(app.getHttpServer())
+        .post('/account')
+        .send(validPayload)
+        .expect(409)
+
+      expect(response.body.message).toBe('Email is already registered.')
+
+      const prisma = new PrismaClient()
+      expect(await prisma.account.count()).toBe(1)
+      await prisma.$disconnect()
     })
   })
 })

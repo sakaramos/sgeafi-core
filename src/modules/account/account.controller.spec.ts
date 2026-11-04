@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { AccountController } from './account.controller.js'
-import { AccountService } from './account.service.js'
-import { AccountRegisterDto } from './account.dto.js'
+
 import { createMockAccountRegisterDto } from '../../helpers/data.mock.js'
 import { createMockAccountService } from '../../helpers/service.mock.js'
+import { AccountController } from './account.controller.js'
+import { AccountService } from './account.service.js'
 
-describe('accountController', () => {
+describe('AccountController', () => {
   let controller: AccountController
   let mockAccountService: ReturnType<typeof createMockAccountService>
 
@@ -22,18 +22,18 @@ describe('accountController', () => {
       ],
     }).compile()
 
-    controller = module.get<AccountController>(AccountController)
+    controller = module.get(AccountController)
 
     vi.clearAllMocks()
   })
 
   describe('register', () => {
-    it('should call AccountService.register', async () => {
-      const dto = createMockAccountRegisterDto()
+    it('should call the account service and process the registration successfully', async () => {
+      const mockDto = createMockAccountRegisterDto()
 
-      const result = await controller.register(dto as AccountRegisterDto)
+      const result = await controller.register(mockDto)
 
-      expect(mockAccountService.register).toHaveBeenCalledWith(dto)
+      expect(mockAccountService.register).toHaveBeenCalledWith(mockDto)
       expect(result).toBe(true)
     })
   })

@@ -1,9 +1,15 @@
 import { Module } from '@nestjs/common'
+
+import { HashModule } from '../../common/hash/hash.module.js'
+import { DatabaseModule } from '../../database/database.module.js'
+import { AccountContactModule } from '../accountContact/accountContact.module.js'
 import { AccountController } from './account.controller.js'
+import { AccountRepository } from './account.repository.js'
 import { AccountService } from './account.service.js'
 
 @Module({
   controllers: [AccountController],
-  providers: [AccountService],
+  providers: [AccountService, AccountRepository],
+  imports: [DatabaseModule, HashModule, AccountContactModule],
 })
 export class AccountModule {}
