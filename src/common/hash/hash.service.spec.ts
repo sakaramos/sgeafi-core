@@ -1,12 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import * as bcrypt from 'bcrypt'
 
 import { HashService } from './hash.service.js'
-
-// mocks hash
-vi.mock('bcrypt', () => ({
-  hash: vi.fn().mockResolvedValue('hashed-password-mock'),
-}))
 
 describe('HashService', () => {
   let service: HashService
@@ -20,13 +14,13 @@ describe('HashService', () => {
   })
 
   describe('hash', () => {
-    it('should generate a bcrypt hash with 10 salt rounds', async () => {
+    it('should hash the password with scrypt', async () => {
       const plainText = 'my-secret-password'
 
       const result = await service.hash(plainText)
 
-      expect(bcrypt.hash).toHaveBeenCalledWith(plainText, 10)
-      expect(result).toBe('hashed-password-mock')
+      expect(result.startsWith('$scrypt$')).toBe(true)
+      expect(result).not.toBe(plainText)
     })
   })
 })
