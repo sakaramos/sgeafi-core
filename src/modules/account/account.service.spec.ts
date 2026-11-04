@@ -7,8 +7,10 @@ import {
   createMockAccountContactRepository,
   createMockAccountRepository,
   createMockHashService,
+  createMockUserRepository,
 } from '../../helpers/service.mock.js'
 import { AccountContactRepository } from '../accountContact/accountContact.repository.js'
+import { UserRepository } from '../user/user.repository.js'
 import { AccountRepository } from './account.repository.js'
 import { AccountService } from './account.service.js'
 
@@ -17,12 +19,14 @@ describe('AccountService', () => {
   let mockHashService: ReturnType<typeof createMockHashService>
   let mockAccountRepository: ReturnType<typeof createMockAccountRepository>
   let mockAccountContactRepository: ReturnType<typeof createMockAccountContactRepository>
+  let mockUserRepository: ReturnType<typeof createMockUserRepository>
   const transaction = {}
 
   beforeEach(async () => {
     mockHashService = createMockHashService()
     mockAccountRepository = createMockAccountRepository()
     mockAccountContactRepository = createMockAccountContactRepository()
+    mockUserRepository = createMockUserRepository()
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -45,6 +49,10 @@ describe('AccountService', () => {
         {
           provide: AccountContactRepository,
           useValue: mockAccountContactRepository,
+        },
+        {
+          provide: UserRepository,
+          useValue: mockUserRepository,
         },
       ],
     }).compile()
@@ -71,6 +79,14 @@ describe('AccountService', () => {
           name: mockDto.name,
           email: mockDto.email,
           phoneNumber: mockDto.phoneNumber,
+        },
+        transaction,
+      )
+      expect(mockUserRepository.create).toHaveBeenCalledWith(
+        {
+          accountId: createMockAccountData().id,
+          passwordHash: 'default-hashed-password',
+          name: mockDto.name,
         },
         transaction,
       )

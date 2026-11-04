@@ -40,10 +40,7 @@ describe('AccountModule', () => {
     }
 
     it('it should return 201 when the data is correct', () => {
-      return request(app.getHttpServer())
-          .post('/account')
-          .send(validPayload)
-          .expect(201)
+      return request(app.getHttpServer()).post('/account').send(validPayload).expect(201)
     })
 
     const nonStringFields = ['accountName', 'name', 'phoneNumber', 'email', 'password']
@@ -95,10 +92,7 @@ describe('AccountModule', () => {
     })
 
     it('should return 409 when the email is already registered', async () => {
-      await request(app.getHttpServer())
-          .post('/account')
-          .send(validPayload)
-          .expect(201)
+      await request(app.getHttpServer()).post('/account').send(validPayload).expect(201)
 
       const response = await request(app.getHttpServer())
         .post('/account')

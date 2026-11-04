@@ -7,7 +7,7 @@ export class AccountContactCreateDto {
   accountId: string
   name: string
   email: string
-  phoneNumber: string
+  phoneNumber?: string
 }
 
 @Injectable()

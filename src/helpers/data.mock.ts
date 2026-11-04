@@ -1,4 +1,9 @@
-import { AccountStatus, type Account, type AccountContact } from '../../generated/prisma/index.js'
+import {
+  AccountStatus,
+  type Account,
+  type AccountContact,
+  type User,
+} from '../../generated/prisma/index.js'
 
 export const createMockAccountRegisterDto = (overrides = {}) => ({
   accountName: 'MyAccount',
@@ -25,6 +30,16 @@ export const createMockAccountContactData = (overrides: Partial<AccountContact> 
   name: 'John Doe',
   email: 'john.doe@gmail.com',
   phoneNumber: '3111111111',
+  createdAt: new Date('2026-01-01T00:00:00.000Z'),
+  updatedAt: new Date('2026-01-01T00:00:00.000Z'),
+  ...overrides,
+})
+
+export const createMockUserData = (overrides: Partial<User> = {}) => ({
+  id: '9b2d4c6e-1a3f-4b8d-8e7c-5f0a1b2c3d4e',
+  accountId: '7c9e6679-7425-40de-944b-e07fc1f90ae7',
+  passwordHash: 'default-hashed-password',
+  name: 'John Doe',
   createdAt: new Date('2026-01-01T00:00:00.000Z'),
   updatedAt: new Date('2026-01-01T00:00:00.000Z'),
   ...overrides,
